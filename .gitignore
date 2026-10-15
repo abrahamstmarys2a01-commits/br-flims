@@ -1,0 +1,94 @@
+# ==========================================
+# BR Films - Master Git Ignore Configuration
+# ==========================================
+
+# Dependencies
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# Environment variables & secrets (CRITICAL)
+.env
+.env.*
+!.env.example
+*.env
+*.env.*
+!.env.example
+!*.env.example
+!**/env.example
+!**/.env.example
+
+# Production & Build outputs
+dist/
+**/dist/
+dist-ssr/
+**/dist-ssr/
+build/
+**/build/
+out/
+**/out/
+.next/
+.output/
+
+# TypeScript & Cache
+*.tsbuildinfo
+.cache/
+**/.cache/
+.vite/
+**/.vite/
+.eslintcache
+
+# Testing & Coverage
+coverage/
+**/coverage/
+*.lcov
+.nyc_output
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime / User uploaded media files
+uploads/banners/*
+uploads/general/*
+uploads/movies/*
+!uploads/**/.gitkeep
+!uploads/logos/br-films-logo.png
+!uploads/movies/lenin-pandiyan.webp
+!uploads/movies/train.webp
+
+# IDE and Editor files
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+
+# Operating System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+[Dd]esktop.ini
+
+# Temporary files & Scratch
+tmp/
+temp/
+*.tmp
+.temp/
+.tmp/
+scratch/
+test-*.mjs
+verify-*.ts
