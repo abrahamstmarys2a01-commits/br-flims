@@ -1,4 +1,10 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+export const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || 'https://br-flims.onrender.com'
+).replace(/\/+$/, '');
+
+const API_BASE = (
+  import.meta.env.VITE_API_BASE_URL || `${BACKEND_URL}/api/v1`
+).replace(/\/+$/, '');
 
 export class ApiError extends Error {
   status: number;

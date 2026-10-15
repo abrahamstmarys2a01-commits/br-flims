@@ -1,4 +1,19 @@
-const API_BASE = '/api/v1';
+export const BACKEND_URL = (
+  import.meta.env.VITE_BACKEND_URL || 'https://br-flims.onrender.com'
+).replace(/\/+$/, '');
+
+export const API_BASE = (
+  import.meta.env.VITE_API_BASE_URL || `${BACKEND_URL}/api/v1`
+).replace(/\/+$/, '');
+
+export const getMediaUrl = (url?: string): string => {
+  if (!url) return '';
+  if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('data:')) {
+    return url;
+  }
+  const clean = url.startsWith('/') ? url : `/${url}`;
+  return `${BACKEND_URL}${clean}`;
+};
 
 export class ApiError extends Error {
   status: number;
