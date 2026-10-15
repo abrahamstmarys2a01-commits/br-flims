@@ -7,8 +7,8 @@ import { Lock, Mail, ArrowRight, AlertCircle, ExternalLink } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext';
 
 const loginSchema = z.object({
-  email: z.string().email('Please enter a valid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().min(1, 'Please enter your username or email address'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -82,14 +82,15 @@ export const Login: React.FC = () => {
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
             <div>
               <label className="block text-xs font-bold text-text-main uppercase tracking-wider mb-1.5">
-                Admin Email Address
+                Username or Email
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
                 <input
-                  type="email"
+                  type="text"
+                  autoComplete="username"
                   {...register('email')}
-                  placeholder="admin@brfilms.in"
+                  placeholder="admin"
                   className={`w-full pl-10 pr-4 py-2.5 rounded-lg text-sm bg-surface-light border ${
                     errors.email ? 'border-red-500' : 'border-border-subtle'
                   } focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red`}

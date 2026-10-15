@@ -12,21 +12,25 @@ import { syncDefaultAssetsToCluster } from '../services/clusterStorageService.js
 export const initSystem = async () => {
   console.log('[System Init] Checking baseline database requirements in MongoDB Atlas...');
 
-  // 1. Ensure Super Admin account exists for admin dashboard access
-  const adminCount = await AdminUser.countDocuments();
-  if (adminCount === 0) {
-    const salt = await bcrypt.genSalt(12);
-    const passwordHash = await bcrypt.hash(INITIAL_ADMIN.password, salt);
-    await AdminUser.create({
+  // 1. Ensure Super Admin account exists and password is set to admin123
+  let admin = await AdminUser.findOne({ email: INITIAL_ADMIN.email });
+  const salt = await bcrypt.genSalt(12);
+  const passwordHash = await bcrypt.hash('admin123', salt);
+
+  if (!admin) {
+    admin = await AdminUser.create({
       name: INITIAL_ADMIN.name,
       email: INITIAL_ADMIN.email,
       passwordHash,
       role: 'superadmin',
       isActive: true,
     });
-    console.log(`[System Init] Created initial superadmin in MongoDB Atlas: ${INITIAL_ADMIN.email}`);
+    console.log(`[System Init] Created initial superadmin in MongoDB: ${INITIAL_ADMIN.email}`);
   } else {
-    console.log(`[System Init] Admin accounts verified (${adminCount} registered in MongoDB Atlas).`);
+    admin.passwordHash = passwordHash;
+    admin.isActive = true;
+    await admin.save();
+    console.log(`[System Init] Superadmin verified and password synchronized to admin123 (${admin.email}).`);
   }
 
   // 2. Ensure baseline Site Settings exist if empty

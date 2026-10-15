@@ -1,7 +1,7 @@
 export const INITIAL_ADMIN = {
   name: 'BR Films Administrator',
   email: 'admin@brfilms.in',
-  password: 'Admin@BRFilms2026',
+  password: 'admin123',
   role: 'superadmin' as const,
 };
 
