@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "BR Films Distribution Website + Standalone Admin CMS + Production REST API Workspace",
   "scripts": {
+    "dev": "npm --prefix server run dev",
+    "build": "npm --prefix server install && npm --prefix server run build",
+    "start": "npm --prefix server start",
     "dev:server": "npm --prefix server run dev",
     "dev:client": "npm --prefix client run dev",
     "dev:admin": "npm --prefix admin run dev",
