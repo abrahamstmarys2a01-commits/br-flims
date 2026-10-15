@@ -14,6 +14,7 @@ import {
   Mail,
 } from 'lucide-react';
 import { getPublicSettings } from '../../api/settings';
+import { getMediaUrl } from '../../api/client';
 
 export const About: React.FC = () => {
   const { data } = useQuery({
@@ -29,9 +30,12 @@ export const About: React.FC = () => {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-surface-warm border border-border-subtle rounded-2xl p-8 sm:p-12 lg:p-16 flex flex-col items-center text-center">
           <img
-            src={settings?.officialLogoUrl || '/logo.png'}
+            src={getMediaUrl(settings?.officialLogoUrl) || '/logo.png'}
             alt="BR Films Official Logo"
             className="h-28 sm:h-36 w-auto object-contain mb-8 drop-shadow-sm"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = '/logo.png';
+            }}
           />
 
           <span className="text-xs font-bold uppercase tracking-widest text-brand-gold-dark block mb-2">

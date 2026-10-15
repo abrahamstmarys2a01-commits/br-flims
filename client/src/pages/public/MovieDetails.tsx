@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { getMovieBySlug } from '../../api/movies';
 import { MovieCard } from '../../components/common/MovieCard';
+import { getMediaUrl } from '../../api/client';
 
 export const MovieDetails: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -109,9 +110,16 @@ export const MovieDetails: React.FC = () => {
               <div className="rounded-2xl overflow-hidden bg-white border border-border-subtle shadow-card-hover relative group">
                 <div className="aspect-[2/3] w-full">
                   <img
-                    src={movie.posterUrl}
+                    src={getMediaUrl(movie.posterUrl)}
                     alt={movie.title}
                     className="w-full h-full object-cover object-center"
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (!target.src.endsWith('/logo.png')) {
+                        target.src = '/logo.png';
+                        target.className = 'w-full h-full object-contain p-8 bg-surface-warm';
+                      }
+                    }}
                   />
                 </div>
 
@@ -268,7 +276,17 @@ export const MovieDetails: React.FC = () => {
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {movie.galleryImages.map((img, i) => (
                     <div key={i} className="aspect-[3/2] rounded-lg overflow-hidden border border-border-subtle bg-surface-light">
-                      <img src={img} alt={`${movie.title} gallery ${i + 1}`} className="w-full h-full object-cover" />
+                      <img
+                        src={getMediaUrl(img)}
+                        alt={`${movie.title} gallery ${i + 1}`}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          if (!target.src.endsWith('/logo.png')) {
+                            target.src = '/logo.png';
+                          }
+                        }}
+                      />
                     </div>
                   ))}
                 </div>

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Film, Sparkles } from 'lucide-react';
 import { IMovie } from '../../types/movie';
 import { Badge } from './Badge';
+import { getMediaUrl } from '../../api/client';
 
 interface MovieCardProps {
   movie: IMovie;
@@ -27,14 +28,16 @@ export const MovieCard: React.FC<MovieCardProps> = ({ movie }) => {
       {/* 2:3 Portrait Poster Container */}
       <div className="relative aspect-[2/3] w-full overflow-hidden bg-surface-light">
         <img
-          src={movie.posterUrl}
+          src={getMediaUrl(movie.posterUrl)}
           alt={movie.title}
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
           loading="lazy"
           onError={(e) => {
-            // Branded placeholder if image fails to load
-            (e.target as HTMLImageElement).src = '/logo.png';
-            (e.target as HTMLImageElement).className = 'w-full h-full object-contain p-8 bg-surface-warm';
+            const target = e.target as HTMLImageElement;
+            if (!target.src.endsWith('/logo.png')) {
+              target.src = '/logo.png';
+              target.className = 'w-full h-full object-contain p-8 bg-surface-warm';
+            }
           }}
         />
 

@@ -18,6 +18,7 @@ import { getPublicMovies, getFeaturedMovies, getUpcomingMovies, getReleasedMovie
 import { getPublicSettings } from '../../api/settings';
 import { MovieCard } from '../../components/common/MovieCard';
 import { SkeletonCard } from '../../components/common/SkeletonCard';
+import { getMediaUrl } from '../../api/client';
 
 export const Home: React.FC = () => {
   // Queries
@@ -56,11 +57,12 @@ export const Home: React.FC = () => {
   const latestMovie =
     recentMoviesData?.data?.[0] || featuredMovies[0] || upcomingMovies[0] || releasedMovies[0];
 
-  const heroImage =
+  const heroImage = getMediaUrl(
     latestMovie?.bannerUrl ||
     latestMovie?.posterUrl ||
     settings?.heroBannerUrl ||
-    '/logo.png';
+    ''
+  ) || '/logo.png';
 
   const heroTitle = latestMovie?.title || settings?.companyName || 'BR Films Distribution';
 
@@ -291,9 +293,12 @@ export const Home: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-5 text-center lg:text-left">
               <img
-                src={settings?.officialLogoUrl || '/logo.png'}
+                src={getMediaUrl(settings?.officialLogoUrl) || '/logo.png'}
                 alt="BR Films"
                 className="h-28 w-auto object-contain mx-auto lg:mx-0 mb-6 drop-shadow-sm"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/logo.png';
+                }}
               />
               <span className="text-xs font-bold uppercase tracking-widest text-brand-gold-dark block mb-2">
                 Tamil Film Distribution
